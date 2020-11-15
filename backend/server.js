@@ -7,6 +7,12 @@ require('dotenv').config();
 
 const app = express()
 
+//Connect to DB
+mongoose.connect(process.env.DATABASE_URI,{useNewUrlParser:true,useFindAndModify:false,useUnifiedTopology:true,useCreateIndex:true})
+.then(()=> console.log('DB is connected'))
+.catch(err => console.log('DB connection failed'))
+
+
 //Import routes from the routes folder => notice  you import from the routes folder de auth file
 const authRoutes = require('./routes/auth')
 
