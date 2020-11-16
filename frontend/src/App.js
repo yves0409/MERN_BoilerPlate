@@ -1,12 +1,14 @@
+import React from 'react'
+import Layout from './core/Layout'
 
-import './App.css';
+const App = () => {
+ 
+ return (
+    <Layout>
+      <h1>Mern BoilerPlate</h1>
+    </Layout>
+  )
+};
 
-function App() {
-  return (
-    <div className="App">
-      <h1>BoilerPlate</h1>
-    </div>
-  );
-}
+export default App
 
-export default App;
