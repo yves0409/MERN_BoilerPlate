@@ -83,3 +83,27 @@ exports.accountActivation = (req, res) => {
 })
 }
 }
+
+exports.signin =(req,res)=> {
+    const {email,password} =req.body;
+
+    //Check if user exists
+    User.findOne({email}).exec((err,user)=> {
+       if(err || !user){
+           return res.status(400).json({
+               error: 'Email does not exist! Please Signup'
+           })
+       }
+       //Autheticate, authenticate method from the user model will compare
+       if(!user.authenticate(password)){
+        return res.status(400).json({
+            error: 'Email and password do not match, pleae try again'
+        })
+       }
+       //Generate a token and send to client
+       const token =jwt.sign({_id : user._id},process.env.JWT_SECRET,{expiresIn:'7d'})
+       const {_id,name,email,role} = user;
+
+       return res.json({token,user:{_id,name,email,role}})
+    })
+}
