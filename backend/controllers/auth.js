@@ -5,65 +5,7 @@ const jwt = require('jsonwebtoken')
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-//signup without email confirmation 
-// exports.signup = (req,res) => {
-//    // console.log('REQ.BODY ON SIGNUP',req.body);
-     
-//    const {name,email,password} = req.body;
 
-//    //email here is req.body.email but we destructured up here, so it is User.findOne({email: req.body.email})
-//    User.findOne({email}).exec((err,user)=> {
-//        if(user){
-//            res.status(400).json({error:'Email is already taken'})
-//        }
-//    }) 
-   
-//    const newUser = new User({name,email,password})
-
-//    newUser.save((err,succes)=> {
-//       if(err){
-//          console.log('SignUp failed',err)
-//          return res.status(400).json({
-//              error: err
-//          })
-//       }
-//       res.json({
-//           message: 'SignUp succesfull , please login'
-//       })
-//    })
-// }\
-
-
-
-// exports.signup = (req,res) => {
-//     const {name,email,password} = req.body;
-
-//     User.findOne({email}).exec((err,user)=> {
-//                 if(user){
-//                     res.status(400).json({error:'Email is already taken'})
-//                }
-//                const token = ({name,email,password},process.env.JWT_ACCOUNT_ACTIVATION,{expiresAt:'10m'})   
-               
-//                const emailData ={
-//                    from:process.env.EMAIL_FROM,
-//                    to:email,
-//                    subject:`Account activation link`,
-//                    html: `<p>Please use the following link to activate your account</p>
-//                           <p>${process.env.CLIENT_URL}/auth/activate</p>
-//                           <hr/>
-//                           <p>${process.env.CLIENT_URL}</p>`
-
-//                }
-//                sgmail.send(emailData).then(sent => {
-//                    console.log('SIGNUP EMAIL SENT',sent);
-//                    return res.json({
-//                         message: `Email has been sent to ${email}, Please follow instructions to activate your account`
-//                    })
-//                })
-//            }) 
-
-           
-// }
 
 exports.signup = (req, res) => {
     const { name, email, password } = req.body;
@@ -106,3 +48,38 @@ exports.signup = (req, res) => {
             });
     });
 };
+
+exports.accountActivation = (req, res) => {
+    const { token } = req.body;
+
+    if(token) {
+        jwt.verify(token,process.env.JWT_ACCOUNT_ACTIVATION,function(err,decoded){
+        if(err){
+             console.log('JWT VERIFY account activation error',err)
+             return res.status(401).json({
+                 error: 'Expired link ,signup again'
+             })
+        }
+        const {name,email,password} = jwt.decode(token)
+
+        const user = new User({name,email,password})
+
+        user.save((err,user)=> {
+            if(err) {
+                console.log('Save user in account activation failed ',err)
+                return res.status(401).json({
+                    error:'Error saving user,try signup again'
+                })
+            }
+            return res.json({
+                message:'SignUp succes! Please Signin'
+            })
+
+        })
+    })
+} else {
+    return res.json({
+        message:'Error occured. Please try again'
+})
+}
+}
