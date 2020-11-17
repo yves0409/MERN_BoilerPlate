@@ -6,7 +6,7 @@ import {authenticate, isAuth} from './helpers'
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 
-const Signin = () => {
+const Signin = ({history}) => {
     const [values,setValues] = useState({
        
         email:'yves.loeys@gmail.com',
@@ -37,7 +37,8 @@ const Signin = () => {
           //save values(user,token) in localstorage/cookie
           authenticate(response, ()=> {
             setValues({...values,name:'',email:'',password:'',buttonText:'Submitted'})
-            toast.success(`Welcome back ${response.data.user.name}`)
+            //toast.success(`Welcome back ${response.data.user.name}`)
+            isAuth() && isAuth().role === 'admin' ? history.push('/admin') : history.push('/private')
           })
           
       })

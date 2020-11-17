@@ -26,12 +26,18 @@ const Layout = ({children,history,match}) => {
             </li>
              </Fragment>)} 
          
-             {isAuth() &&  <li className="nav-item">
-             <span className="nav-link">{isAuth().name}</span>
-            </li>}
+             {isAuth() && isAuth().role === 'admin' && (
+            <li className="nav-item">
+               <Link to="/admin" className="nav-link" style={isActive('/admin')}>{isAuth().name}</Link>
+            </li>)}
+
+            {isAuth() && isAuth().role === 'subscriber' && (
+            <li className="nav-item">
+               <Link to="/private" className="nav-link" style={isActive('/private')}>{isAuth().name}</Link>
+            </li>)}
 
 
-         {isAuth() &&  <li className="nav-item">
+         {isAuth() && <li className="nav-item">
              <span className="nav-link" style={{cursor:'pointer',color:'#fff'}} onClick={()=> {
                 signout(()=> {
                   history.push('/')
