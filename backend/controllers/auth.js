@@ -1,5 +1,6 @@
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
+const expressJwt = require('express-jwt')
 
 //sendgrid
 const sgMail = require('@sendgrid/mail')
@@ -107,3 +108,11 @@ exports.signin =(req,res)=> {
        return res.json({token,user:{_id,name,email,role}})
     })
 }
+
+//middleware (included in the express package)
+//It will compare the token and if it is valid it will provide us the req.user (all userunfo)
+//The token is generated using the userid , secret and expiry
+exports.requireSignin = expressJwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"],
+})
