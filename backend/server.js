@@ -15,6 +15,7 @@ mongoose.connect(process.env.DATABASE_URI,{useNewUrlParser:true,useFindAndModify
 
 //Import routes from the routes folder => notice  you import from the routes folder de auth file
 const authRoutes = require('./routes/auth')
+const userRoutes = require('./routes/user')
 
 //Middleware used for app
 app.use(morgan('dev'))
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV = 'development') {
 
 //Middleware used for routes
 app.use('/api',authRoutes)
+app.use('/api',userRoutes)
 
 const port = process.env.PORT || 8000
 
