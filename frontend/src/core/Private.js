@@ -64,18 +64,22 @@ const Private = ({history}) => {
     setValues({...values,buttonText:'Submitting'})
    
     axios({
-        method: 'POST',
-        url:`${process.env.REACT_APP_API}/signup`,
-        data: {name,email,password}
+        method: 'PUT',
+        url:`${process.env.REACT_APP_API}/user/update`,
+        data: {name,password},
+        headers:  {
+          Authorization: `Bearer ${token}`
+        },
+        data: {name,password},
       })
     .then(response => {
-        console.log('Signup success',response);
-        setValues({...values,name:'',email:'',password:'',buttonText:'Submitted'})
-        toast.success(response.data.message)
+        console.log('Private profile update success',response);
+        setValues({...values,buttonText:'Submitted'})
+        toast.success('Profile Updated Succesfully')
     })
     .catch(error => {
         console.log(error);
-        console.log('Signup error',error.response.data);
+        console.log('Private profile update error',error.response.data);
         setValues({...values,buttonText:'Submit'})
         toast.error(error.response.data.error)
     })

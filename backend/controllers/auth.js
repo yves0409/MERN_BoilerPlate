@@ -18,7 +18,8 @@ exports.signup = (req, res) => {
             });
         }
 
-        const token = jwt.sign({ name, email, password }, process.env.JWT_ACCOUNT_ACTIVATION, { expiresIn: '24h' });
+        const token = jwt.sign({ name, email, password }, process.env.JWT_ACCOUNT_ACTIVATION, { expiresIn: '10m' });
+     
 
         const emailData = {
             from: process.env.EMAIL_FROM,
@@ -85,6 +86,8 @@ exports.accountActivation = (req, res) => {
 }
 }
 
+
+
 exports.signin =(req,res)=> {
     const {email,password} =req.body;
 
@@ -102,7 +105,7 @@ exports.signin =(req,res)=> {
         })
        }
        //Generate a token and send to client
-       const token =jwt.sign({_id : user._id},process.env.JWT_SECRET,{expiresIn:'7d'})
+       const token =jwt.sign({_id : user._id},process.env.JWT_SECRET,{expiresIn:'30s'})
        const {_id,name,email,role} = user;
 
        return res.json({token,user:{_id,name,email,role}})
