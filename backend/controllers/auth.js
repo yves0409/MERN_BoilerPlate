@@ -105,7 +105,7 @@ exports.signin =(req,res)=> {
         })
        }
        //Generate a token and send to client
-       const token =jwt.sign({_id : user._id},process.env.JWT_SECRET,{expiresIn:'30s'})
+       const token =jwt.sign({_id : user._id},process.env.JWT_SECRET,{expiresIn:'7d'})
        const {_id,name,email,role} = user;
 
        return res.json({token,user:{_id,name,email,role}})

@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import {Link,Redirect} from 'react-router-dom'
 import axios from 'axios'
 import Layout from '../core/Layout'
-import { isAuth,getCookie, signout} from '../auth/helpers'
+import { isAuth,getCookie, signout, updateUser} from '../auth/helpers'
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 
@@ -74,9 +74,14 @@ const Private = ({history}) => {
       })
     .then(response => {
         console.log('Private profile update success',response);
-        setValues({...values,buttonText:'Submitted'})
-        toast.success('Profile Updated Succesfully')
+        updateUser(response, ()=> {
+          console.log('works or not')
+          setValues({...values,buttonText:'Submitted'})
+          toast.success('Profile Updated Succesfully')
+        });
+        
     })
+  
     .catch(error => {
         console.log(error);
         console.log('Private profile update error',error.response.data);
