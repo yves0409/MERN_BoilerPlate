@@ -23,3 +23,19 @@ exports.userSigninVal = [
     .withMessage('Password must have at least 6 characters'),
 
 ]
+
+exports.forgotPasswordVal = [
+    check('email')
+    .not()
+    .isEmpty()
+     .isEmail()
+     .withMessage('Provide a valid email'),
+   ]
+
+   exports.resetPasswordVal = [
+    check('email')
+    .not()
+    .isEmpty()
+     .isLength({min: 6})
+     .withMessage('Password must have at least 6 characters'),
+   ]
