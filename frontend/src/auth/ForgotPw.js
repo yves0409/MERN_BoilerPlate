@@ -32,6 +32,7 @@ const ForgotPw = ({history}) => {
         })
       .then(response => {
           console.log('forgot password success',response);
+          toast.succes(response.data.message)
           setValues({...values,buttonText:'Request Made'})
        
           
