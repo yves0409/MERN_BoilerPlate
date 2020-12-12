@@ -205,7 +205,7 @@ exports.resetPassword = (req, res) => {
             User.findOne({ resetPasswordLink }, (err, user) => {
                 if (err || !user) {
                     return res.status(400).json({
-                        error: 'Something went wrong. Try later'
+                        error: 'Something went wrong. Try again later'
                     });
                 }
 
@@ -219,11 +219,11 @@ exports.resetPassword = (req, res) => {
                 user.save((err, result) => {
                     if (err) {
                         return res.status(400).json({
-                            error: 'Error resetting user password'
+                            error: 'Error reset password'
                         });
                     }
                     res.json({
-                        message: `Great! Now you can login with your new password`
+                        message: `You can now login with your new password`
                     });
                 });
             });
