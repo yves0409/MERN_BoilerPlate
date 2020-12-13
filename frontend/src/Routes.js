@@ -9,7 +9,7 @@ import Admin from './core/Admin'
 import PrivateRoute from './auth/PrivateRoute'
 import AdminRoute from './auth/AdminRoute'
 import ForgotPw from './auth/ForgotPw'
-
+import ResetPw from './auth/ResetPw'
 const Routes = () => {
     return (
         <BrowserRouter>
@@ -21,6 +21,7 @@ const Routes = () => {
                 <PrivateRoute path="/private" component={Private}/>
                 <AdminRoute path="/admin" component={Admin}/>
                 <Route path="/auth/password/forgot-pw" exact component={ForgotPw}/>
+                <Route path="/auth/password/reset/:token" exact component={ResetPw}/>
             </Switch>
         </BrowserRouter>
     )

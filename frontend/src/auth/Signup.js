@@ -75,6 +75,9 @@ const Signup = () => {
               {isAuth() ? <Redirect to="/"/> : null}
              <h1 className="p-5 text-center" >SignUp</h1>
              {signUpForm()}
+             <br/>
+             <Link to="/auth/password/forgot-pw" className="btn btn-sm btn-outline-danger">Forgot Password</Link>
+
 
             </div>
            

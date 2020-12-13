@@ -44,7 +44,7 @@ const Signin = ({history}) => {
       })
       .catch(error => {
           console.log(error);
-          console.log('Signin error',error.response.data);
+        //   console.log('Signin error',error.response.data);
           setValues({...values,buttonText:'Submit'})
           toast.error(error.response.data.error)
       })
@@ -80,6 +80,8 @@ const Signin = ({history}) => {
             {isAuth() ? <Redirect to="/" /> : null}
              <h1 className="p-5 text-center" >SignIn</h1>
              {signInForm()}
+             <br/>
+             <Link to="/auth/password/forgot-pw" className="btn btn-sm btn-outline-danger">Forgot Password</Link>
 
             </div>
            

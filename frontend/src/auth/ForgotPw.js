@@ -1,8 +1,6 @@
 import React,{useState} from 'react'
-
 import axios from 'axios'
 import Layout from '../core/Layout'
-
 import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 
@@ -16,12 +14,12 @@ const ForgotPw = ({history}) => {
     const {email,buttonText} = values
 
    const  handleChange=(name)=> (event)=> {
-       console.log(event.target.value);
+       //console.log(event.target.value);
        setValues({...values,[name]:event.target.value})
     }
 
     const handleSubmit = event => {
-      console.log('submitted');
+     // console.log('submitted');
       event.preventDefault();
       setValues({...values,buttonText:'Submitting'})
 
@@ -32,17 +30,17 @@ const ForgotPw = ({history}) => {
         })
       .then(response => {
           console.log('forgot password success',response);
-          toast.succes(response.data.message)
+          toast.success(response.data.message)
           setValues({...values,buttonText:'Request Made'})
        
           
           
       })
       .catch(error => {
-          console.log(error);
+          
           console.log('forgot password error',error.response.data);
-          setValues({...values,buttonText:'Reset password'})
           toast.error(error.response.data.error)
+          setValues({...values,buttonText:'Reset password'})
       })
     }
 
