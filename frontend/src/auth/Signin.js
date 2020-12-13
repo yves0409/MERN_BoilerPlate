@@ -6,6 +6,7 @@ import {authenticate, isAuth} from './helpers'
 import {ToastContainer,toast} from 'react-toastify'
 import Google from './Google'
 import 'react-toastify/dist/ReactToastify.min.css'
+import Facebook from './Facebook'
 
 const Signin = ({history}) => {
     const [values,setValues] = useState({
@@ -18,8 +19,15 @@ const Signin = ({history}) => {
     const {email,password,buttonText} = values
 
    const  handleChange=(name)=> (event)=> {
-       console.log(event.target.value);
+       //console.log(event.target.value);
        setValues({...values,[name]:event.target.value})
+    }
+
+    //Need to inform parent component for google login , pass it down in the google component below
+    const informParent = response => {
+        authenticate(response, ()=> {
+           isAuth() && isAuth().role === 'admin' ? history.push('/admin') : history.push('/private')
+          })
     }
 
     const handleSubmit = event => {
@@ -80,7 +88,8 @@ const Signin = ({history}) => {
            
             {isAuth() ? <Redirect to="/" /> : null}
              <h1 className="p-5 text-center" >SignIn</h1>
-             <Google/>
+             <Facebook/>
+             <Google informParent={informParent}/>
              {signInForm()}
              <br/>
              <Link to="/auth/password/forgot-pw" className="btn btn-sm btn-outline-danger">Forgot Password</Link>
