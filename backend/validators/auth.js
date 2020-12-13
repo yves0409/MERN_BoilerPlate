@@ -33,7 +33,7 @@ exports.forgotPasswordVal = [
    ]
 
    exports.resetPasswordVal = [
-    check('email')
+    check('newPassword')
     .not()
     .isEmpty()
      .isLength({min: 6})

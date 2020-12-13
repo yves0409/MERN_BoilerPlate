@@ -149,7 +149,7 @@ exports.forgotPassword = (req,res) => {
                 error: 'No User with this email'
             })
         }
-        const token = jwt.sign({_id : user._id}, process.env.JWT_RESET_PASSWORD, { expiresIn: '10m' });
+        const token = jwt.sign({_id : user._id ,name:user.name}, process.env.JWT_RESET_PASSWORD, { expiresIn: '10m' });
      
 
         const emailData = {
@@ -165,7 +165,7 @@ exports.forgotPassword = (req,res) => {
             `
         };
 
-        return user.updateOne({resetPasswordLink: token},(err,succes)=> {
+        return user.updateOne({resetPasswordLink: token},(err,success)=> {
             if(err){
                 console.log('RESET PASSWORD LINK ERROR',err);
                 return res.status(400).json({
